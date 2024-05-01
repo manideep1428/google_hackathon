@@ -2,7 +2,9 @@ import { NextRequest, NextResponse } from 'next/server';
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 
 export async function POST(req: NextRequest) {
-    const genAI = new GoogleGenerativeAI("AIzaSyDBF8PcsICb6f80ZvOtlaTiysqOfrgmHBg");
+    
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_KEY || "");
+
     const { image } = await req.json();
     const model = genAI.getGenerativeModel({ model: "gemini-pro-vision" });
 

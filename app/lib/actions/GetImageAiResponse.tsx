@@ -9,7 +9,7 @@ interface InputProps{
   imageType:string
 }
 
-const genAI = new GoogleGenerativeAI("AIzaSyDBF8PcsICb6f80ZvOtlaTiysqOfrgmHBg");
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_KEY || "");
 
 export async function GeminiImage(question:String, image:any, role:string) {
     const model = genAI.getGenerativeModel({ model: "gemini-pro-vision" });
