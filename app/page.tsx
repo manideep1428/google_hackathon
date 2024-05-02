@@ -1,9 +1,18 @@
-import React from 'react'
+import React from 'react';
+import MainPage from './components/Main';
+import ImagePage from './components/Image';
 
-const page = () => {
+const Page = () => {
   return (
-    <div>page</div>
-  )
-}
+    <div className='flex flex-row w-full h-full'>
+      <div className='h-full w-1/2'>
+        <MainPage />
+      </div>
+      <div className='hidden sm:w-1/2 h-full flex justify-center items-center'>
+       <ImagePage/>
+      </div>
+    </div>
+  );
+};
 
-export default page
+export default Page;
