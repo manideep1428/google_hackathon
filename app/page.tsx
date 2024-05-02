@@ -8,7 +8,7 @@ const Page = () => {
       <div className='h-full w-1/2'>
         <MainPage />
       </div>
-      <div className='hidden sm:w-1/2 h-full flex justify-center items-center'>
+      <div className='w-1/2 h-full flex justify-center items-center'>
        <ImagePage/>
       </div>
     </div>

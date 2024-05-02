@@ -2,6 +2,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
 
 
 const CaptureVideo: React.FC = () => {
@@ -10,19 +11,15 @@ const CaptureVideo: React.FC = () => {
   const [capturedFrame, setCapturedFrame] = useState("");
   const [isRecording, setIsRecording] = useState<boolean>(false);
   const [text, setText] = useState('');
-  const [speak, setSpeak] = useState(false);
-  const [isAiTaking, setAiTaking] = useState(true);
   const [isFrontCamera, setIsFrontCamera] = useState<boolean>(true);
 
   useEffect(() => {
     let intervalId: NodeJS.Timeout;
     if (isRecording) {
-      if(isAiTaking){
         intervalId = setInterval(captureFrame, 7000);
-      }
     }
     return () => clearInterval(intervalId);
-  }, [isRecording,isAiTaking]);
+  }, [isRecording]);
 
   const startRecording = async () => {
     try {
@@ -39,10 +36,10 @@ const CaptureVideo: React.FC = () => {
     const stream = videoRef.current?.srcObject as MediaStream;
     const tracks = stream?.getTracks();
     tracks?.forEach(track => track.stop());
-    speechSynthesis.cancel();
     setIsRecording(false);
+    setText("");
   };
-
+  
   const captureFrame = async () => {
     if (videoRef.current && canvasRef.current) {
       const canvas = canvasRef.current;
@@ -57,7 +54,6 @@ const CaptureVideo: React.FC = () => {
 useEffect(() => {
       if (capturedFrame !== "") {
         const image = capturedFrame.split(",")[1];
-        setAiTaking(false)
         const handleResponse = async () => {
           const res = await axios.post('/api/image', { image: image });
           const result = res.data.message
@@ -65,13 +61,12 @@ useEffect(() => {
         };
         handleResponse();
       }
-  }, [capturedFrame, isAiTaking]);
+  }, [capturedFrame]);
 
   useEffect(()=>{
     const handleSpeech = () => {
       const utterance = new SpeechSynthesisUtterance(text);
-      speechSynthesis.speak(utterance);
-      setAiTaking(true)
+      window.speechSynthesis.speak(utterance);
     };
     handleSpeech();
   },[text])
@@ -98,6 +93,9 @@ useEffect(() => {
             Stop Recording
           </button>
         )}
+        {isRecording ? (
+          toast.success("Please wait 5 secs")
+        ): ""}
         <button onClick={toggleCamera} className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
           Switch Camera
         </button>
@@ -107,6 +105,7 @@ useEffect(() => {
           <Image layout="fill" objectFit="cover" src={capturedFrame} alt="Captured frame" />
         </div>
       )}
+      <ToastContainer/>
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import React from 'react';
+
 import Link from 'next/link';
 
 const MainPage = () => {
@@ -10,7 +10,7 @@ const MainPage = () => {
         <div className="text-lg text-white mb-2">
           <p>About ChatBot</p>
           <p>
-            The ChatBot here is very similar to Gemini. It takes input and images and provides responses. What makes it different? In this project, I've implemented roles in the Gemini, which allows for more specific and contextual responses.
+            The ChatBot here is very similar to Gemini. It takes input and images and provides responses.What makes it different? In this project, I have  implemented roles in the Gemini, which allows for more specific and contextual responses.
           </p>
         </div>
         <div className="text-lg text-white mb-2">

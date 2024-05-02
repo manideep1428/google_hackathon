@@ -17,7 +17,12 @@ const genAI = new GoogleGenerativeAI(process.env.GEMINI_KEY || "");
     }
     ]
     console.log(imageParts)
-    let prompt = `what is image about?`;
+    let prompt = `Describe the image waht you see in maximum 40 word
+                  start "this is " if humans are appered decribe about them in a 
+                  beautiful way and what they are doing \n
+                  
+                  if not human read the image carefully if questions are in it reply them?
+                  `;
 
     const result = await model.generateContent([prompt, ...imageParts]);
     const response = await result.response;
