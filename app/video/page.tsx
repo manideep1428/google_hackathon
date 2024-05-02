@@ -2,24 +2,27 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import axios from 'axios';
-import './Videoplayer.css'
+
 
 const CaptureVideo: React.FC = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [capturedFrame, setCapturedFrame] = useState("");
   const [isRecording, setIsRecording] = useState<boolean>(false);
-  const [response, setResponse] = useState("");
+  const [text, setText] = useState('');
+  const [speak, setSpeak] = useState(false);
   const [isAiTaking, setAiTaking] = useState(true);
   const [isFrontCamera, setIsFrontCamera] = useState<boolean>(true);
 
   useEffect(() => {
     let intervalId: NodeJS.Timeout;
     if (isRecording) {
-      intervalId = setInterval(captureFrame, 6000);
+      if(isAiTaking){
+        intervalId = setInterval(captureFrame, 7000);
+      }
     }
     return () => clearInterval(intervalId);
-  }, [isRecording]);
+  }, [isRecording,isAiTaking]);
 
   const startRecording = async () => {
     try {
@@ -33,10 +36,17 @@ const CaptureVideo: React.FC = () => {
     }
   };
 
+  const handleStop = () => {
+   
+    setSpeak(false);
+  };
+  
+
   const stopRecording = () => {
     const stream = videoRef.current?.srcObject as MediaStream;
     const tracks = stream?.getTracks();
     tracks?.forEach(track => track.stop());
+    speechSynthesis.cancel();
     setIsRecording(false);
   };
 
@@ -50,48 +60,58 @@ const CaptureVideo: React.FC = () => {
     }
   };
 
-  useEffect(() => {
-   if(isAiTaking){
-    if (capturedFrame !== "") {
-      setAiTaking(false)
-      const image = capturedFrame.split(",")[1];
-      const handleResponse = async () => {
-        const res = await axios.post('/api/image', { image: image });
-        console.log(res.data);
-        setAiTaking(true)
-      };
-      handleResponse();
-    }
-   }
-  }, [capturedFrame ,isAiTaking]);
+
+useEffect(() => {
+      if (capturedFrame !== "") {
+        const image = capturedFrame.split(",")[1];
+        setAiTaking(false)
+        const handleResponse = async () => {
+          const res = await axios.post('/api/image', { image: image });
+          const result = res.data.message
+          setText(result)
+        };
+        handleResponse();
+      }
+  }, [capturedFrame, isAiTaking]);
+
+  useEffect(()=>{
+    const handleSpeech = () => {
+      const utterance = new SpeechSynthesisUtterance(text);
+      speechSynthesis.speak(utterance);
+      setAiTaking(true)
+    };
+    handleSpeech();
+  },[text])
 
   const toggleCamera = () => {
     setIsFrontCamera(prevState => !prevState);
+    stopRecording();
+    startRecording();
   };
 
   return (
-    <div className="capture-video-container">
-      <div className="video-wrapper">
-        <video ref={videoRef} autoPlay muted playsInline />
+    <div className="flex flex-col items-center justify-center space-y-4 m-4">
+      <div className="relative">
+        <video ref={videoRef} autoPlay muted playsInline className="w-full" />
         <canvas ref={canvasRef} className="hidden" />
       </div>
-      <div className="controls">
+      <div className="space-x-4">
         {!isRecording ? (
-          <button onClick={startRecording} className="record-button">
+          <button onClick={startRecording} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
             Start Recording
           </button>
         ) : (
-          <button onClick={stopRecording} className="record-button">
+          <button onClick={stopRecording} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
             Stop Recording
           </button>
         )}
-        <button onClick={toggleCamera} className="toggle-camera-button">
+        <button onClick={toggleCamera} className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
           Switch Camera
         </button>
       </div>
       {capturedFrame && (
-        <div className="captured-photo">
-          <Image width={330} height={330} src={capturedFrame} alt="Captured frame" />
+        <div className="relative w-72 h-72">
+          <Image layout="fill" objectFit="cover" src={capturedFrame} alt="Captured frame" />
         </div>
       )}
     </div>

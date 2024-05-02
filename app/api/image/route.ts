@@ -23,5 +23,5 @@ const genAI = new GoogleGenerativeAI(process.env.GEMINI_KEY || "");
     const response = await result.response;
     const text = await response.text();
     console.log(text)
-    return NextResponse.json({ request: "HI" , message: text});
+    return NextResponse.json({message: text});
 }
