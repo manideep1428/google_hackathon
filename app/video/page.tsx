@@ -93,18 +93,10 @@ useEffect(() => {
             Stop Recording
           </button>
         )}
-        {isRecording ? (
-          toast.success("Please wait 5 secs")
-        ): ""}
         <button onClick={toggleCamera} className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
           Switch Camera
         </button>
-      </div>
-      {capturedFrame && (
-        <div className="relative w-72 h-72">
-          <Image layout="fill" objectFit="cover" src={capturedFrame} alt="Captured frame" />
-        </div>
-      )}
+       </div>
       <ToastContainer/>
     </div>
   );
