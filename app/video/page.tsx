@@ -35,13 +35,6 @@ const CaptureVideo: React.FC = () => {
       console.error('Error accessing camera:', error);
     }
   };
-
-  const handleStop = () => {
-   
-    setSpeak(false);
-  };
-  
-
   const stopRecording = () => {
     const stream = videoRef.current?.srcObject as MediaStream;
     const tracks = stream?.getTracks();
