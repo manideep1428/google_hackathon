@@ -15,7 +15,7 @@ const MainPage = () => {
         </div>
         <div className="text-lg text-white mb-2">
           <p>Explore Chat-Bot</p>
-          <Link href="/chat"
+          <Link href="/chat/1434"
              className="block py-3 px-4 bg-blue-500 text-white rounded-lg text-center font-semibold hover:bg-blue-700 transition duration-300">
               Chat-Bot
           </Link>
