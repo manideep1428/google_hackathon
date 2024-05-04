@@ -1,3 +1,5 @@
+# IN CMD : git clone https://github.com/manideep1428/google_hackathon.git 
+# and IN CMD : 
 
 ```bash
 npm run dev
