@@ -18,10 +18,16 @@ const CaptureVideo: React.FC = () => {
   useEffect(() => {
     let intervalId: NodeJS.Timeout;
     if (isRecording) {
-        intervalId = setInterval(captureFrame, 3000);
+      intervalId = setInterval(captureFrame, 8000);
     }
     return () => clearInterval(intervalId);
   }, [isRecording]);
+
+  useEffect(()=>{
+    if(isRecording){
+    setTimeout(captureFrame, 2000);
+    }
+  },[isRecording])
 
   const startRecording = async () => {
     try {

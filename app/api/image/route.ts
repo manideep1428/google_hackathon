@@ -10,6 +10,15 @@ const genAI = new GoogleGenerativeAI(process.env.GEMINI_KEY || "");
     const { image } = await req.json();
     const model = genAI.getGenerativeModel({ model: "gemini-pro-vision" });
     console.log(request)
+    const timestamp = Date.now();
+    const currentDate = new Date(timestamp);
+    
+    const hours = currentDate.getHours();
+    const minutes = currentDate.getMinutes();
+    const seconds = currentDate.getSeconds();
+    
+    console.log(`Current time: ${hours}:${minutes}:${seconds}`);
+    
     
     const imageParts = [
         {
@@ -19,16 +28,17 @@ const genAI = new GoogleGenerativeAI(process.env.GEMINI_KEY || "");
                     }
     }
     ]
-    let prompt = `Describe the image waht you see in maximum 40 word
-                  start with Iam looking if humans are appered decribe about them in a 
-                  beautiful way and what they are doing \n
-                  
-                  if not human read the image carefully if questions are in it reply them?
+    let prompt = `Describe the image what you see in maximum 3 seconds not more then that \n
+                  if not human read the image carefully reply them?
+
                   `;
 
     const result = await model.generateContent([prompt, ...imageParts]);
+    let inside =  0
     const response = await result.response;
     const text = await response.text();
-    console.log(text)
+    inside++
+    console.log(text , inside)
     return NextResponse.json({message: text});
+
 }
