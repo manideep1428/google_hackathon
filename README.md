@@ -9,4 +9,7 @@ pnpm dev
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result. /n
+## Go to  http://localhost:3000/video for the project for Gemini Hackathon
+
+
+Open [(http://localhost:3000) with your browser to see the result. /n
