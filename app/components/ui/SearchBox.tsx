@@ -22,7 +22,7 @@ const ChatInput: React.FC<ChatInputProps> = ({
         value={inputValue}
         onChange={onchange}
         placeholder="Type your message..."
-        className="flex-grow rounded-md py-2 bg-slate-200 px-4 mr-4 outline-none text-sm md:text-base lg:text-lg w-full"
+        className="flex-grow rounded-md py-2 bg-slate-200 px-4 mr-4 outline-none text-sm md:text-base lg:text-lg w-full "
       />
       <button
         onClick={onclick}

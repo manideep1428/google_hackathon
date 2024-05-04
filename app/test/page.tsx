@@ -11,14 +11,14 @@ const CaptureVideo: React.FC = () => {
   const [capturedFrame, setCapturedFrame] = useState("");
   const [isRecording, setIsRecording] = useState<boolean>(false);
   const [text, setText] = useState('');
-  const [start ,setStarted] =useState(false);
   const [isFrontCamera, setIsFrontCamera] = useState<boolean>(true);
+  const [time ,setTime] = useState(10);
 
   const router = useRouter();
   useEffect(() => {
     let intervalId: NodeJS.Timeout;
     if (isRecording) {
-        intervalId = setInterval(captureFrame, 3000);
+        intervalId = setInterval(captureFrame, 10000);
     }
     return () => clearInterval(intervalId);
   }, [isRecording]);
@@ -30,7 +30,12 @@ const CaptureVideo: React.FC = () => {
       });
       if (videoRef.current) videoRef.current.srcObject = stream;
       setIsRecording(true);
-      setStarted(true)
+      const interval = setInterval(() => {
+        if (time > 0) {
+          setTime(time - 1);
+        }
+      }, 1000);
+  
     } catch (error) {
       console.error('Error accessing camera:', error);
     }
@@ -40,7 +45,6 @@ const CaptureVideo: React.FC = () => {
     const tracks = stream?.getTracks();
     tracks?.forEach(track => track.stop());
     setIsRecording(false);
-    setText("");
     window.speechSynthesis.cancel();
     router.push("/")
   };
@@ -70,14 +74,17 @@ useEffect(() => {
     },2000)
   }, [capturedFrame]);
 
-  useEffect(()=>{
-    setStarted(false);
+  useEffect(() => {
     const handleSpeech = () => {
       const utterance = new SpeechSynthesisUtterance(text);
+      window.speechSynthesis.cancel(); 
       window.speechSynthesis.speak(utterance);
     };
-    handleSpeech();
-  },[text])
+    if (text) {
+      handleSpeech();
+    }
+  }, [text]);
+  
 
   const toggleCamera = () => {
     setIsFrontCamera(prevState => !prevState);
@@ -87,8 +94,8 @@ useEffect(() => {
 
   return (
     <div className="flex flex-col items-center justify-center space-y-4 m-4">
-       {start ? (
-      <div>Please Wait AI is Processing </div>
+       { isRecording ? (
+      <div>AI will Respond : {time}</div>
        ) : ""}
       <div className="relative">
         <video ref={videoRef} autoPlay muted playsInline className="w-full" />

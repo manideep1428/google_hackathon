@@ -4,13 +4,13 @@ import ImagePage from './components/Image';
 
 const Page = () => {
   return (
-    <div className='flex flex-row w-full h-full'>
-      <div className='h-full w-1/2'>
+    <div className='flex flex w-full h-full'>
+      <div className='h-full w-full'>
         <MainPage />
       </div>
-      <div className='w-1/2 h-full flex justify-center items-center'>
+      {/* <div className='w-1/2 h-full flex justify-center items-center'>
        <ImagePage/>
-      </div>
+      </div> */}
     </div>
   );
 };

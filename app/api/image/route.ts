@@ -1,13 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server';
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 
-export async function POST(req: NextRequest) {
-    
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_KEY || "");
+  let request = 0
 
+export async function POST(req: NextRequest) {
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_KEY || "");
+     request++
+     console.log(request)
     const { image } = await req.json();
     const model = genAI.getGenerativeModel({ model: "gemini-pro-vision" });
-
+    console.log(request)
+    
     const imageParts = [
         {
         inlineData: { 
@@ -16,9 +19,8 @@ const genAI = new GoogleGenerativeAI(process.env.GEMINI_KEY || "");
                     }
     }
     ]
-    console.log(imageParts)
     let prompt = `Describe the image waht you see in maximum 40 word
-                  start "this is " if humans are appered decribe about them in a 
+                  start with Iam looking if humans are appered decribe about them in a 
                   beautiful way and what they are doing \n
                   
                   if not human read the image carefully if questions are in it reply them?

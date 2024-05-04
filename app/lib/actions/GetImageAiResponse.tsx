@@ -17,7 +17,7 @@ export async function GeminiImage(question:String, image:any, role:string) {
      
     console.log(image)
     if(role === "Frontend Dev"){
-      let prompt = `Act as Senior FullStack Engg proficiency in Most Popular Libraries 
+      let prompt = `Act as Senior Frontend Dev  proficiency in Most Popular Libraries 
                     like ReactJs ,AngularJs ,VeuJs , Typescript , Tailwind ,Css ,..etc \n 
 
                     Decribe the minimum 300 words \n
@@ -42,8 +42,10 @@ export async function GeminiImage(question:String, image:any, role:string) {
 
                     Decribe the minimum 300 words\n
 
-                    ${question}
-                    `  
+                    ${question}               `  
+   }
+   else{
+     let prompt = `${question}`
    }
 
     const result = await model.generateContent([prompt, ...image]);
