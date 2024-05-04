@@ -48,7 +48,7 @@ const CaptureVideo: React.FC = () => {
     setIsRecording(false);
     setText("");
     window.speechSynthesis.cancel();
-    router.push("/")
+    // router.push("/")
   };
   
   const captureFrame = async () => {
