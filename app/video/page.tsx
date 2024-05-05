@@ -18,7 +18,7 @@ const CaptureVideo: React.FC = () => {
   useEffect(() => {
     let intervalId: NodeJS.Timeout;
     if (isRecording) {
-      intervalId = setInterval(captureFrame, 8000);
+      intervalId = setInterval(captureFrame, 5000);
     }
     return () => clearInterval(intervalId);
   }, [isRecording]);
@@ -67,9 +67,14 @@ useEffect(() => {
       if (capturedFrame !== "") {
         const image = capturedFrame.split(",")[1];
         const handleResponse = async () => {
+          try {
           const res = await axios.post('/api/image', { image: image });
           const result = res.data.message
           setText(result)
+          } catch (error:any) {
+            toast.error(error);
+            
+          }
         };
         handleResponse();
       }
