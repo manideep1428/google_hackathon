@@ -5,11 +5,11 @@ import { FileSvg } from './Svgs';
 
 const FileInput= ({onchange}:{onchange:(e:React.ChangeEvent<HTMLInputElement>)=>void , }) => {
   return (
-    <label className="custom-file-input ml-[12px] mt-4 text-center h-12 w-12 hover:cursor-pointer">
+    <label className="custom-file-input text-center hover:cursor-pointer">
       <FileSvg/>
       <input type="file" id='photoselector'
        onChange={onchange} accept="image/*" 
-       className="flex justify-center items-center"
+       className="flex justify-center items-center h-12 w-12"
        style={{ display: 'none' }} />
     </label>
   );

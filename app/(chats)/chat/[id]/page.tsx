@@ -82,7 +82,7 @@ export default function Chatpage() {
   }
 
   return (
-    <div className='flex flex-col w-full h-full p-auto'>
+    <div className='flex flex-col p-auto'>
       <div className='px-8 md:px-16 lg:px-24 mb-24 pb-12 mt-4'>
         <ResponsePage response={response} />
       </div>
@@ -94,13 +94,15 @@ export default function Chatpage() {
         ) : (
           ''
         )}
-        <div className='flex flex-col justify-center items-center w-full'>
-          <Dropdown options={['Teacher', 'Frontend dev', 'General', 'Doctor']} ondataChange={handleRoleSelection} />
-          <div className='w-full flex flex-col items-center md:flex-row md:items-start'>
-            <div className='w-full md:w-auto md:mr-2 mb-2 md:mb-0'>
+        <div className='flex flex-col justify-center items-center'>
+          <div className='text-center m-2 flex justify-center items-center'>
+           <Dropdown options={['Teacher', 'Frontend dev', 'General', 'Doctor']} ondataChange={handleRoleSelection} />
+          </div>
+          <div className='flex w-screen flex-col items-center md:flex-row md:items-start ml-8'>
+            <div className='m-auto'>
               <FileInput onchange={handleImageChange} />
             </div>
-            <div className='w-full md:w-auto text-center'>
+            <div className='w-full md:w-auto lg:w-3/4 text-center'>
               <ChatInput
                 btnName={<Arrow />}
                 onclick={handleResponse}
