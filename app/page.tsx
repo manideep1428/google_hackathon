@@ -1,6 +1,7 @@
 
 import { Button } from "@/components/ui/button"
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card"
+import Link from "next/link"
 
 export default function Component() {
   return (
@@ -9,9 +10,15 @@ export default function Component() {
         <nav className="flex justify-between items-center">
           <h1 className="text-2xl font-bold">My Project</h1>
           <div className="space-x-4">
-            <Button >About</Button>
-            <Button >Contact</Button>
-            <Button> GitHub </Button>
+            <Button>
+               <Link href={"https://portfolio-rho-self-26.vercel.app/#about"}>About</Link>
+            </Button>
+            <Button >
+              <Link href={"https://portfolio-rho-self-26.vercel.app/"} >Contact</Link>
+            </Button>
+            <Button> 
+              <Link href={"https://github.com/manideep1428/google_hackathon"}> GitHub </Link>
+            </Button>
           </div>
         </nav>
       </header>
@@ -39,7 +46,9 @@ export default function Component() {
               </p>
             </CardContent>
             <CardFooter>
-              <Button className="w-full">Explore Chat-Bot</Button>
+              <Button  className="w-full">
+                <Link href={"/chat"}>Explore the Chat-Bot</Link>
+              </Button>
             </CardFooter>
           </Card>
 
@@ -55,7 +64,9 @@ export default function Component() {
               </p>
             </CardContent>
             <CardFooter>
-              <Button className="w-full">Find What You See</Button>
+              <Button className="w-full">
+                <Link href={"/video"}>Find What You See</Link>
+              </Button>
             </CardFooter>
           </Card>
         </div>

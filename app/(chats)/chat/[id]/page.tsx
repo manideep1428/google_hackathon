@@ -1,7 +1,7 @@
 "use client"
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select"
 import { Card, CardContent } from "@/components/ui/card"
-import { ImageIcon, SendIcon } from "lucide-react"
+import { SendIcon } from "lucide-react"
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -11,6 +11,7 @@ import ImagePreview from "@/app/components/ImagePreview"
 import FileInput from "@/app/components/ui/ImageInput"
 import { GeminiImage } from "@/app/lib/actions/GetImageAiResponse"
 import { run } from "@/app/lib/actions/GetAIData"
+import { useRouter } from "next/navigation"
 
 export default function Component() {
   const [response , setResponse] = useState<String>("");
@@ -19,7 +20,7 @@ export default function Component() {
   const [role, setRole] = useState<string>('');
   const [loading ,setLoading] = useState<Boolean>(false);
   const [question, setQuestion] = useState<String>('');
-
+  const router  = useRouter()
   const removeImage = () => {
     setSelectedImage('');
     setImage('');
@@ -84,7 +85,7 @@ export default function Component() {
   return (
     <div className="flex flex-col h-screen bg-gray-900 text-white">
       <header className="bg-gray-800 p-4 flex justify-between items-center">
-        <h1 className="text-2xl font-bold">Gemini</h1>
+        <h1 onClick={()=>router.push('/')} className="cursor-pointer text-2xl font-bold">Gemini</h1>
         <Button variant="ghost">Exit Chat</Button>
       </header>
       <main className="flex-grow overflow-auto p-4">
