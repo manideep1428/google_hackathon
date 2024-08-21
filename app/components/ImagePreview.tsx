@@ -9,11 +9,13 @@ interface Improps{
 export default function ImagePreview({imageSrc, onclick}:Improps){
     return(
         <div className="flex justify-center mt-5">
-          <div className="relative h-48">
+          <div className="relative h-20 w-20">
              <Image src={imageSrc}
-              width={100} height={100}
+            //   width={100} height={100}
               alt="image"
               className="blur-xs"
+              objectFit="fit"
+              fill={true}
               />
           </div>
            <div className="flex absolute ml-[100px]">

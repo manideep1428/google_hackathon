@@ -1,26 +1,28 @@
-'use client'
-import React, { useState } from 'react';
-import ImagePreview from '@/app/components/ImagePreview';
-import ResponsePage from '@/app/components/ResponsePage';
-import FileInput from '@/app/components/ui/ImageInput';
-import Dropdown from '@/app/components/ui/RoleDropdown';
-import ChatInput from '@/app/components/ui/SearchBox';
-import { Arrow } from '@/app/components/ui/Svgs';
-import { run } from '@/app/lib/actions/GetAIData';
-import { GeminiImage } from '@/app/lib/actions/GetImageAiResponse';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+"use client"
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select"
+import { Card, CardContent } from "@/components/ui/card"
+import { ImageIcon, SendIcon } from "lucide-react"
+import { useState } from "react"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { toast, ToastContainer } from "react-toastify"
+import ResponsePage from "@/app/components/ResponsePage"
+import ImagePreview from "@/app/components/ImagePreview"
+import FileInput from "@/app/components/ui/ImageInput"
+import { GeminiImage } from "@/app/lib/actions/GetImageAiResponse"
+import { run } from "@/app/lib/actions/GetAIData"
 
-export default function Chatpage() {
-  const [question, setQuestion] = useState('');
-  const [response, setResponse] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [role, setRole] = useState('');
+export default function Component() {
+  const [response , setResponse] = useState<String>("");
+  const [image ,setImage]  =useState<any>('');
   const [selectedImage, setSelectedImage] = useState('');
-  const [image, setImage] = useState<any>();
+  const [role, setRole] = useState<string>('');
+  const [loading ,setLoading] = useState<Boolean>(false);
+  const [question, setQuestion] = useState<String>('');
 
-  const handleRoleSelection = (roleData: string) => {
-    setRole(roleData);
+  const removeImage = () => {
+    setSelectedImage('');
+    setImage('');
   };
 
   const handleResponse = async () => {
@@ -48,6 +50,7 @@ export default function Chatpage() {
     }
   };
 
+
   const handleImageChange = async (event: any) => {
     const { id } = event.target;
     const file = event.target.files[0];
@@ -60,13 +63,9 @@ export default function Chatpage() {
       reader.readAsDataURL(file);
     }
     const fileInputEl: any = document.querySelector(`#${id}`);
+    //@ts-ignore
     const imageParts = await Promise.all([...fileInputEl.files].map(fileToGenerativePart));
     setImage(imageParts);
-  };
-
-  const removeImage = () => {
-    setSelectedImage('');
-    setImage('');
   };
 
   async function fileToGenerativePart(file: any) {
@@ -81,40 +80,60 @@ export default function Chatpage() {
     };
   }
 
+
   return (
-    <div className='flex flex-col p-auto'>
-      <div className='px-8 md:px-16 lg:px-24 mb-24 pb-12 mt-4'>
-        <ResponsePage response={response} />
-      </div>
-      <div className='flex flex-col p-4 fixed h-full w-full md:w-4/5 justify-end'>
+    <div className="flex flex-col h-screen bg-gray-900 text-white">
+      <header className="bg-gray-800 p-4 flex justify-between items-center">
+        <h1 className="text-2xl font-bold">Gemini</h1>
+        <Button variant="ghost">Exit Chat</Button>
+      </header>
+      <main className="flex-grow overflow-auto p-4">
+        <Card className="bg-gray-800 border-gray-700 mb-4">
+          <CardContent className="p-4">
+        { response ? <ResponsePage response="nsdjnsdfknsfkjdnk" />
+            : <p className="text-gray-400">Sorry For Inconvience Gemini API Removed The Free Trails. 
+              Developer Soon Fix This</p>}
+          </CardContent>
+        </Card>
         {selectedImage ? (
-          <div className='w-full -mb-24 md:ml-40 flex justify-center'>
-            <ImagePreview imageSrc={selectedImage} onclick={removeImage} />
-          </div>
-        ) : (
-          ''
-        )}
-        <div className='flex flex-col justify-center items-center'>
-          <div className='text-center m-2 flex justify-center items-center'>
-           <Dropdown options={['Teacher', 'Frontend dev', 'General', 'Doctor']} ondataChange={handleRoleSelection} />
-          </div>
-          <div className='flex w-screen flex-col items-center md:flex-row md:items-start ml-8'>
-            <div className='m-auto'>
-              <FileInput onchange={handleImageChange} />
-            </div>
-            <div className='w-full md:w-auto lg:w-3/4 text-center'>
-              <ChatInput
-                btnName={<Arrow />}
-                onclick={handleResponse}
-                className={`text-black ${loading ? 'hidden' : ''}`}
-                inputValue={question}
-                onchange={(e) => setQuestion(e.target.value)}
-              />
-            </div>
-          </div>
-          <ToastContainer />
+        <div className="absolute left-8 bottom-28">
+          <ImagePreview imageSrc={selectedImage} onclick={removeImage}/>
         </div>
-      </div>
+        ) : "" }
+      </main>
+      <footer className="bg-gray-800 p-4 space-y-4">
+        <div className="flex justify-between items-center">
+          <Select>
+            <SelectTrigger className="w-[200px] bg-gray-700 border-gray-600">
+              <SelectValue placeholder="Select AI Role" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem onClick={()=>setRole('general')} value="general">General Assistant</SelectItem>
+              <SelectItem onClick={()=>setRole('coder')} value="coder">Code Expert</SelectItem>
+              <SelectItem onClick={()=>setRole('contentWriter')} value="creative">Creative Writer</SelectItem>
+              <SelectItem onClick={()=>setRole('bug hunter in coding')} value="bug hunter">Bug Hunter </SelectItem>
+              <SelectItem onClick={()=>setRole('Teacher')} value="teacher">Teacher</SelectItem>
+            </SelectContent>
+          </Select>
+          <FileInput onchange={(e)=>handleImageChange(e)} />
+        </div>
+        <div className="flex space-x-2">
+          <Input
+            onChange={(event)=>setQuestion(event.target.value)}
+            className="flex-grow bg-gray-700 border-gray-600 text-white" 
+            placeholder="Type your message..." 
+          />
+         {loading ?
+         ( <Button disabled size="icon" onClick={handleResponse}>
+            <SendIcon className="h-4 w-4" />
+           </Button> 
+          ) : (
+            <Button size="icon" onClick={handleResponse}>
+              <SendIcon className="h-4 w-4" />
+            </Button>
+          ) }
+        </div>
+      </footer>
     </div>
-  );
+  )
 }
