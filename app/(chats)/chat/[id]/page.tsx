@@ -14,7 +14,7 @@ import { run } from "@/app/lib/actions/GetAIData"
 import { useRouter } from "next/navigation"
 
 export default function Component() {
-  const [response , setResponse] = useState<String>("");
+  const [response , setResponse] = useState<any>("");
   const [image ,setImage]  =useState<any>('');
   const [selectedImage, setSelectedImage] = useState('');
   const [role, setRole] = useState<string>('');
@@ -28,10 +28,6 @@ export default function Component() {
 
   const handleResponse = async () => {
     setLoading(true);
-    console.log(`Send to Server : ${question}`);
-    console.log(`Image for this: ${image}`);
-    console.log(`Role for this: ${role}`);
-
     try {
       if (question === '' || question.trim() === '') {
         throw new Error('Input should not be empty');
@@ -91,7 +87,7 @@ export default function Component() {
       <main className="flex-grow overflow-auto p-4">
         <Card className="bg-gray-800 border-gray-700 mb-4">
           <CardContent className="p-4">
-        { response ? <ResponsePage response="nsdjnsdfknsfkjdnk" />
+        { response ? <ResponsePage response={response} />
             : <p className="text-gray-400">Sorry For Inconvience Gemini API Removed The Free Trails. 
               Developer Soon Fix This</p>}
           </CardContent>

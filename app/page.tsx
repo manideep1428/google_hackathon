@@ -1,7 +1,8 @@
-
+'use client'
 import { Button } from "@/components/ui/button"
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card"
 import Link from "next/link"
+
 
 export default function Component() {
   return (
@@ -11,13 +12,13 @@ export default function Component() {
           <h1 className="text-2xl font-bold">My Project</h1>
           <div className="space-x-4">
             <Button>
-               <Link href={"https://portfolio-rho-self-26.vercel.app/#about"}>About</Link>
+               <Link  href={"https://portfolio-rho-self-26.vercel.app/#about"}>About</Link>
             </Button>
             <Button >
-              <Link href={"https://portfolio-rho-self-26.vercel.app/"} >Contact</Link>
+              <Link  href={"https://portfolio-rho-self-26.vercel.app/"} >Contact</Link>
             </Button>
             <Button> 
-              <Link href={"https://github.com/manideep1428/google_hackathon"}> GitHub </Link>
+              <Link  href={"https://github.com/manideep1428/google_hackathon"}> GitHub </Link>
             </Button>
           </div>
         </nav>
@@ -36,7 +37,7 @@ export default function Component() {
         <div className="grid md:grid-cols-2 gap-8">
           <Card className="bg-gray-800 border-gray-700">
             <CardHeader>
-              <CardTitle className="text-2xl">ChatBot</CardTitle>
+              <CardTitle className="text-2xl text-white">ChatBot</CardTitle>
               <CardDescription>Engage with our AI-powered ChatBot</CardDescription>
             </CardHeader>
             <CardContent>
@@ -46,15 +47,17 @@ export default function Component() {
               </p>
             </CardContent>
             <CardFooter>
-              <Button  className="w-full">
-                <Link href={"/chat"}>Explore the Chat-Bot</Link>
-              </Button>
+              <Link  className="w-full" href={"/chat"}>
+                <Button  className="w-full">
+                  Explore the Chat-Bot
+                </Button>
+              </Link>
             </CardFooter>
           </Card>
 
           <Card className="bg-gray-800 border-gray-700">
             <CardHeader>
-              <CardTitle className="text-2xl">Find What You See</CardTitle>
+              <CardTitle className="text-2xl text-white">Find What You See</CardTitle>
               <CardDescription>Discover the magic of image recognition</CardDescription>
             </CardHeader>
             <CardContent>
@@ -64,9 +67,11 @@ export default function Component() {
               </p>
             </CardContent>
             <CardFooter>
-              <Button className="w-full">
-                <Link href={"/video"}>Find What You See</Link>
-              </Button>
+              <Link className="w-full" href={"/video"}>
+                <Button className="w-full">
+                 Find What You See
+                </Button>
+              </Link>
             </CardFooter>
           </Card>
         </div>
@@ -74,7 +79,7 @@ export default function Component() {
 
       <footer className="mt-12 bg-gray-900 py-6">
         <div className="container mx-auto px-6 text-center text-gray-400">
-          <p>&copy; 2023 My Project. All rights reserved.</p>
+          <p>&copy; 2024 Manideep All rights reserved.</p>
         </div>
       </footer>
     </div>

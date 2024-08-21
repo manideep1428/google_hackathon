@@ -67,3 +67,11 @@
     @apply bg-background text-foreground;
   }
 }
+
+#nprogress .bar {
+  background: blue !important;
+}
+
+#nprogress .peg {
+  box-shadow: 0 0 10px blue, 0 0 5px blue !important;
+}
